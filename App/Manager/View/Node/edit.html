@@ -1,0 +1,189 @@
+<include file="Public/header" />
+        <!--sidebar left start-->
+    <include file="Public/menu" />  
+        <!--main content start-->
+        <section class="main-content-wrapper">
+            <section id="main-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--breadcrumbs start -->
+                        <ul class="breadcrumb">
+                            <li><a href="{:U('Index/index')}">首页</a>
+                            </li>
+                            <li>节点管理</li>
+                            <li class="active">添加节点</li>
+                             <li class="pull-right"><a  href="{:U('Node/index')}" class="btn btn-info">返回列表</a></li>
+                        </ul>
+                        <!--breadcrumbs end -->
+                       
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">添加节点</h3>
+                                <div class="actions pull-right">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <i class="fa fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+
+                                <form class="form-horizontal form-border"  method="post" action="" onsubmit="return check()">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">选择父级：</label>
+                                        <div class="col-sm-4">
+                                       
+                                             <select class="form-control" name="pid" id="role">
+                                                <option value="0">请选择父级</option>
+                                                 <volist name="list" id="v">
+                                                    <option value="{$v.id}" <if condition="$info.pid eq $v['id']"> selected=selected</if>>{$v.title}</option>
+                                                    <volist name="v.child" id="vo">
+                                                      <option value="{$vo.id}" <if condition="$info.pid eq $vo['id']"> selected=selected</if>> &nbsp;└-{$vo.title}</option>
+                                                </volist>
+                                                </volist>
+                                            </select>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">规则名称：</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="title" id="title" placeholder="规则名称" value="{$info.title}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">规则标识：</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="name" id="name"  placeholder="模块/控制器/方法" value="{$info.name}">
+                                        </div>
+                                    </div>
+                                   <div class="form-group">
+                                        <label class="col-sm-3 control-label">URL：</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="url" id='url' value="{$info.url}" placeholder="控制器/方法">
+                                        </div>
+                                    </div>
+                                     <div class="form-group">
+                                        <label class="col-sm-3 control-label">ICON图标：</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="icon" id='icon' value="{$info.icon}" placeholder="fa-camera">
+                                        </div>
+                                    </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">排序：</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="sort"  value="{$info.sort}" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">状态：</label>
+                                        <div class="col-sm-6">
+                                            <label class="radio-inline">
+                                                <div class="iradio_flat-grey " style="position: relative;"><input class="icheck" type="radio"  <if condition="$info.status eq 1"> checked=checked</if> name="status"  value="1"></div>&nbsp;正常
+                                                </label>
+                                            <label class="radio-inline">
+                                                <div class="iradio_flat-grey" style="position: relative;"><input class="icheck" type="radio"  <if condition="$info.status eq 0"> checked=checked</if> name="status" value="0"></div>&nbsp;禁用</label>
+                                           
+                                        </div>
+                                    </div>
+                                  <div class="form-group">
+                                        <label class="col-sm-3 control-label">是否启用附加规则：</label>
+                                        <div class="col-sm-6">
+                                            <label class="checkbox-inline">
+                                                <input class="icheck" type="checkbox" checked="" name="type" value="1"  <if condition="$info.type eq 0"> checked=checked</if> >&nbsp;&nbsp;<span style="color:grey;">启用之后附加规则才能生效</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">是否是菜单：</label>
+                                        <div class="col-sm-6">
+                                            <label class="radio-inline">
+                                                <div class="iradio_flat-grey " style="position: relative;"><input class="icheck" type="radio"  <if condition="$info.menu eq 1"> checked=checked</if> name="menu"  value="1"></div>&nbsp;是
+                                                </label>
+                                            <label class="radio-inline">
+                                                <div class="iradio_flat-grey" style="position: relative;"><input class="icheck" type="radio" name="menu" <if condition="$info.menu eq 0"> checked=checked</if> value="0"></div>&nbsp;否</label>
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">附加规则：</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="condition" id='icon' value="{$info.condition}" placeholder="附加规则">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-8 col-sm-10">
+                                           <input type="hidden" name="id" value="{$info.id}">
+                                            <button type="submit" class="btn btn-primary">提交</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </section>
+        <!--main content end-->
+        <!--sidebar right start-->
+      
+        <!--sidebar right end-->
+    </section>
+    
+    <script src="__PUBLIC__/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="__PUBLIC__/assets/plugins/waypoints/waypoints.min.js"></script>
+    <script src="__PUBLIC__/assets/js/application.js"></script>
+    <!--Page Level JS-->
+    <script src="__PUBLIC__/assets/plugins/icheck/js/icheck.min.js"></script>
+  
+    <script>
+    $(document).ready(function() {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_flat-grey',
+            radioClass: 'iradio_flat-grey'
+        });
+
+
+    });
+   function check(){
+   
+        var name=$("#title").val();
+            
+        var title=$("#name").val();
+        var url=$("#url").val();
+       
+        if(name==''){
+            layer.msg('规则名称必须填写', {
+                    icon: 5,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }); 
+            //layer.alert('分类必须选择', {icon: 5});
+            return false;
+        }else if(title==''){
+            layer.msg('规则标识必须填写', {
+                    icon: 5,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }); 
+            //layer.alert('文章标题必须填写', {icon: 5});
+            return false;
+        }else if(url==''){
+            layer.msg('URL必须填写', {
+                    icon: 5,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }); 
+            //layer.alert('文章标题必须填写', {icon: 5});
+            return false;
+        }else{
+            return true;
+        }
+}
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+ <aside class="sidebar">
+            <div id="leftside-navigation" class="nano">
+                  <ul class="nano-content">
+                    <li class="active">
+                        <a href="{:U('Index/index')}"><i class="fa fa-dashboard"></i><span>首页</span></a>
+                    </li>
+                    <volist name="menu" id="vo" >
+                    <li  <if condition="$vo.id eq $openFirstId">class="sub-menu  active"<else/>class="sub-menu"</if>>
+                        <a href="javascript:void(0);"><i class="fa {$vo.icon}"></i><span>{$vo.title}</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <ul>
+                          <volist name="vo.child" id="v">
+                            <li <if condition="$v.id eq $open" > class="active" </if> ><a href="{$v.urls}">{$v.title}</a>
+                            </li>
+                          </volist>  
+                        </ul>
+                    </li>
+                   </volist>
+                  
+                   
+                   
+                </ul>
+
+               <!--  <ul class="nano-content">
+                    <li <if condition=" CONTROLLER_NAME eq 'Index'"> class="active"</if> >
+                        <a href="{:U('Index/index')}"><i class="fa fa-dashboard"></i><span>首页</span></a>
+                    </li>
+                    <volist name="menu" id="vo">
+                        <li <if condition="$open eq $vo['id']"> class="sub-menu active" <else/> class="sub-menu " </if> >
+                            <a href="javascript:void(0);"><i class="fa fa-{$vo.icon}"></i><span>{$vo.title}</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
+                                
+                             <volist name="vo.child" id="v">
+                                <li <if condition="$v['name'] eq CONTROLLER_NAME">class="active" </if>><a href="{$v.url}"> {$v.title}</a></li>
+                            </volist>  
+                            </ul>
+                        </li>
+                    </volist>
+                   
+                 
+                   
+                 
+                </ul> -->
+            </div>
+
+        </aside>
