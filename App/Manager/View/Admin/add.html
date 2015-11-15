@@ -134,7 +134,7 @@ $(function(){
     $("#username").formValidator({onShow:"请输入用户名",onFocus:"用户名4-10个字符",onCorrect:"该用户名可以注册"}).inputValidator({min:4,max:10,onError:"你输入的用户名非法"})
         .ajaxValidator({
         async : false,
-        url :"{:U('Admin/check_user')}",
+        url :"{:U('Login/check_user')}",
         success : function(data){
 
             if(data==0){

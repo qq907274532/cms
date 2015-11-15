@@ -67,6 +67,7 @@ class NodeController extends BaseController {
             $this->display();
         }
     }
+   
     public function del(){
         $id=I('id',0,'intval');
         $info=$this->info_com($this->model,array('pid'=>$id));

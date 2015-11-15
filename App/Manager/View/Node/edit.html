@@ -11,7 +11,7 @@
                             <li><a href="{:U('Index/index')}">首页</a>
                             </li>
                             <li>节点管理</li>
-                            <li class="active">添加节点</li>
+                            <li class="active">修改节点</li>
                              <li class="pull-right"><a  href="{:U('Node/index')}" class="btn btn-info">返回列表</a></li>
                         </ul>
                         <!--breadcrumbs end -->
@@ -22,7 +22,7 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">添加节点</h3>
+                                <h3 class="panel-title">修改节点</h3>
                                 <div class="actions pull-right">
                                     <i class="fa fa-chevron-down"></i>
                                     <i class="fa fa-times"></i>
@@ -56,7 +56,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">规则标识：</label>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control" name="name" id="name"  placeholder="模块/控制器/方法" value="{$info.name}">
+                                            <input type="text" class="form-control" name="name" id="name"  placeholder="模块/控制器/方法" value="{$info.name}" onblur="return checkOnly() ">
                                         </div>
                                     </div>
                                    <div class="form-group">
@@ -150,6 +150,37 @@
 
 
     });
+     function checkOnly(){
+
+        var name=$("#name").val();
+
+        var url="{:U('Login/checkOnly')}";
+        if(name==''){
+             $("#blur").css('color','red');
+            $("#blur").html("规则标识不能为空");
+            return false;
+        }else{
+             $.ajax({
+                    type:'POST',
+                    url:url,
+                    data:{name:name},
+                    success:function(data){
+                        
+                        if(data==1){
+                            $("#blur").css('color','red');
+                            $("#blur").html("规则标识已经存在");
+                            return false;
+                        }else{
+                            $("#blur").css('color','green');
+                            $("#blur").html("规则标识可以使用");
+                            return true;
+                        }
+                }
+                    
+              })
+        }
+       
+    }
    function check(){
    
         var name=$("#title").val();

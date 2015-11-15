@@ -204,7 +204,6 @@
             </div>
 
         </aside>  
-    
         <!--main content start-->
         <section class="main-content-wrapper">
             <section id="main-content">
@@ -212,75 +211,119 @@
                     <div class="col-md-12">
                         <!--breadcrumbs start -->
                         <ul class="breadcrumb">
-                            <li><a href="<?php echo U('Index/index');?>">首页</a>
+                            <li><a href="#">首页</a>
                             </li>
-                            <li>管理员管理</li>
-                            <li class="active">修改管理员</li>
-                             <li class="pull-right"><a  href="<?php echo U('Admin/index');?>" class="btn btn-info">返回列表</a></li>
+                            <li>日志管理</li>
+                            <li class="active">登录日志</li>
+                            
                         </ul>
                         <!--breadcrumbs end -->
                        
                     </div>
                 </div>
+                <div style="height:24px;margin-top: -14px;" class="page-header">
+                        <form action="" method="get">
+                            <div style="margin-bottom:10px;" class="col-sm-12">
+                            <span class="input-icon input-icon-right">
+                               <div class="form-group">
+                                    
+                                    <div class="col-sm-2" style="margin-left: -31px;">
+                                   
+                                         <select class="form-control" style="min-height: 30px;" name="group_id" id="role">
+                                            <option value="0">请选择管理员</option>
+                                             <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><option value="<?php echo ($v["username"]); ?>"<?php if( $v["username"] == $_GET['group_id'] ): ?>selected=selected<?php endif; ?>><?php echo ($v["username"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+                                </span>
+                                
+                            <span class="input-icon input-icon-right">
+                                <input style="text-indent:0.5em;height: 28px;" type="text" id="starTime" placeholder="开始时间" name="starTime" value="<?php echo ($_GET['starTime']); ?>">
+                                </span>
+                                <span class="input-icon input-icon-right">
+                                <input style="text-indent:0.5em;height: 28px;" type="text" id="endTime" placeholder="结束时间" name="endTime"  value="<?php echo ($_GET['endTime']); ?>">
+                                </span>
+                                <input style="height: 24px" class=" btn-lg btn-success btn btn-xs btn-danger" type="submit" value="搜索">
+                            </div>
+                            
+                        </form>
+                        </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">修改管理员</h3>
+                                <h3 class="panel-title">登录日志管理</h3>
                                 <div class="actions pull-right">
                                     <i class="fa fa-chevron-down"></i>
-                                    <i class="fa fa-times"></i>
+                                    
                                 </div>
                             </div>
                             <div class="panel-body">
+                                <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>         
+                                           <th>ID</th>
+                                            <th>管理员名称</th>
+                                            <th class="hidden-480">登录时间</th>
+                                            <th class="hidden-480">ip</th>
+                                            
+                                            <th class="hidden-480">状态</th>
+                                            <th class="hidden-480">原因</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
 
-                                <form class="form-horizontal form-border"  method="post" action="" onsubmit="return check()">
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">管理员名称：</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" name="username" id="username" placeholder="管理员名称" value="<?php echo ($info["username"]); ?>" disabled="disabled">
-                                        </div>
-                                           
-                                       
-                                    </div>
-                                   
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">权限组：</label>
-                                        <div class="col-sm-4">
-                                       
-                                             <select class="form-control" name="group_id" id="role">
-                                                <option value="0">请选择权限</option>
-                                                 <?php if(is_array($infoRole)): $i = 0; $__LIST__ = $infoRole;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><option value="<?php echo ($v["id"]); ?>" <?php if($info["role_id"] == $v['id']): ?>selected=selected<?php endif; ?>><?php echo ($v["title"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
-                                            </select>
-                                        </div>
-                                       
-                                    </div>
-                                   <div class="form-group">
-                                        <label class="col-sm-3 control-label">排序：</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" name="sort"  value="<?php echo ($info["sort"]); ?>" placeholder="50">
-                                        </div>
-                                    </div>
-                                   <div class="form-group">
-                                        <label class="col-sm-3 control-label">状态：</label>
-                                        <div class="col-sm-6">
-                                            <label class="radio-inline">
-                                                <div class="iradio_flat-grey " style="position: relative;"><input class="icheck" type="radio"  <?php if($info["lock"] == '开启'): ?>checked=checked<?php endif; ?> name="lock"  value="开启"></div>&nbsp;开启
-                                                </label>
-                                            <label class="radio-inline">
-                                                <div class="iradio_flat-grey" style="position: relative;"><input class="icheck" type="radio" <?php if($info["lock"] == '锁定'): ?>checked=checked<?php endif; ?> name="lock" value="锁定"></div>&nbsp;锁定</label>
-                                           
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-8 col-sm-10">
-                                            <input type="hidden" name="id" value="<?php echo ($info["id"]); ?>">
-                                            <button type="submit" class="btn btn-primary">提交</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    <tbody>
+                                     <?php if(is_array($data["list"])): $i = 0; $__LIST__ = $data["list"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><tr>
+                                            <td>
+                                                <?php echo ($v["id"]); ?>
+                                            </td>
+                                            <td><?php echo ($v["name"]); ?></td>
+                                            <td class="hidden-480">
+                                          
+                                             <?php echo (date('Y-m-d H:i:s',$v["time"])); ?>
+                                                
+                                            </td>
+                                            <td class="hidden-480"><?php echo ($v["ip"]); ?></td>
+                                            <td class="hidden-480">
+                                              <?php if($v["status"] == 1): ?><span class="label label-success arrowed">登录成功</span>
+                                              <?php else: ?>
+                                                 <span class="label label-danger arrowed">登录失败</span><?php endif; ?>
+                                                
+                                            </td>
 
+                                            <td class="hidden-480">
+                                                <?php echo ($v["mess"]); ?>
+                                                
+                                            </td>
+                                            
+                                            <td>
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+                                                    
 
+                                                  
+                                                    <a onclick="if(confirm('确认删除?')) location.href='<?php echo U('LoginLog/del',array('id'=>$v[id]));?>'"  href="javascript:;" >
+                                                       <i class="fa fa-trash-o "></i>
+                                                    </a>
+
+                                                    
+                                                </div>
+
+                                                
+                                            </td>
+                                        </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+                                    
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="col-sm-6 pull-right">
+                                <div class="dataTables_paginate paging_bootstrap ">
+                                    <ul class="pagination ">
+                                    <?php echo ($data["page"]); ?>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -290,26 +333,41 @@
         </section>
         <!--main content end-->
         <!--sidebar right start-->
-      
+     
         <!--sidebar right end-->
     </section>
-    
+    <!--Global JS-->
+   
     <script src="/Public/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="/Public/assets/plugins/waypoints/waypoints.min.js"></script>
+    <script src="/Public/assets/plugins/nanoScroller/jquery.nanoscroller.min.js"></script>
     <script src="/Public/assets/js/application.js"></script>
-    <!--Page Level JS-->
-    <script src="/Public/assets/plugins/icheck/js/icheck.min.js"></script>
-  
-  <script type="text/javascript">
-$(function(){
+    <!--Page Leve JS -->
+    <script src="/Public/assets/plugins/dataTables/js/jquery.dataTables.js"></script>
+    <script src="/Public/assets/plugins/dataTables/js/dataTables.bootstrap.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var logic = function( currentDateTime ){
+            if( currentDateTime.getDay()==6 ){
+                this.setOptions({
+                    minTime:'11:00'
+                });
+            }else
+                this.setOptions({
+                    minTime:'8:00'
+                });
+        };
+        $('#starTime').datetimepicker({
+            lang:'ch',
+            step:30,
+        });
+        $('#endTime').datetimepicker({
+            lang:'ch',
+            step:30,
+        });
     
-  $('input').iCheck({
-            checkboxClass: 'icheckbox_flat-grey',
-            radioClass: 'iradio_flat-grey'
-        }); 
-   
-});
-</script>
+    });
+</script>   
 
 </body>
 

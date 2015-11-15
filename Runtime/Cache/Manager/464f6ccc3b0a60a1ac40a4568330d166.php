@@ -35,6 +35,8 @@
     <link href="/Public/assets/css/validator.css" rel="stylesheet" type="text/css" />
     <script src="/Public/assets/js/formValidatorRegex.js" type="text/javascript"></script>
     <script src="/Public/assets/js/formValidator-4.0.1.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="/Public/assets/css/jquery.datetimepicker.css" />
+      <script src="/Public/assets/js/jquery.datetimepicker.js"></script> 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="/Public/assets/js/html5shiv.js"></script>
@@ -169,56 +171,16 @@
             <div id="leftside-navigation" class="nano">
                   <ul class="nano-content">
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-dashboard"></i><span>首页</span></a>
+                        <a href="<?php echo U('Index/index');?>"><i class="fa fa-dashboard"></i><span>首页</span></a>
                     </li>
-                    <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa-cogs"></i><span>权限管理</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                    <?php if(is_array($menu)): $i = 0; $__LIST__ = $menu;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li  <?php if($vo["id"] == $openFirstId): ?>class="sub-menu  active"<?php else: ?>class="sub-menu"<?php endif; ?>>
+                        <a href="javascript:void(0);"><i class="fa <?php echo ($vo["icon"]); ?>"></i><span><?php echo ($vo["title"]); ?></span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
-
-                            <li><a href="<?php echo U('Admin/index');?>">管理员管理</a>
-                            </li>
-                            <li><a href="<?php echo U('Role/index');?>">角色管理</a>
-                            </li>
-                            <li><a href="<?php echo U('Node/index');?>">节点管理</a>
-                            </li>
-                            
+                          <?php if(is_array($vo["child"])): $i = 0; $__LIST__ = $vo["child"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><li <?php if($v["id"] == $open): ?>class="active"<?php endif; ?> ><a href="<?php echo ($v["urls"]); ?>"><?php echo ($v["title"]); ?></a>
+                            </li><?php endforeach; endif; else: echo "" ;endif; ?>  
                         </ul>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa-table"></i><span>Tables</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        <ul>
-                            <li><a href="tables-basic.html">Basic Tables</a>
-                            </li>
-                            <li><a href="tables-data.html">Data Tables</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa fa-tasks"></i><span>Forms</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        <ul>
-                            <li><a href="forms-components.html">Components</a>
-                            </li>
-                            <li><a href="forms-validation.html">Validation</a>
-                            </li>
-                            <li><a href="forms-mask.html">Mask</a>
-                            </li>
-                            <li><a href="forms-wizard.html">Wizard</a>
-                            </li>
-                            <li><a href="forms-multiple-file.html">Multiple File Upload</a>
-                            </li>
-                            <li><a href="forms-wysiwyg.html">WYSIWYG Editor</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa-envelope"></i><span>Mail</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        <ul>
-                            <li><a href="mail-inbox.html">Inbox</a>
-                            </li>
-                            <li><a href="mail-compose.html">Compose Mail</a>
-                            </li>
-                        </ul>
-                    </li>
+                    </li><?php endforeach; endif; else: echo "" ;endif; ?>
+                  
                    
                    
                 </ul>
