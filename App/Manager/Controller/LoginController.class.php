@@ -118,6 +118,13 @@ class LoginController extends Controller {
      * 退出
      */
     public function logout(){
+         $data=array(
+        'uid'=>$_SESSION['id'],
+        'time'=>time(),
+        'name'=>$_SERVER['PHP_SELF'].$_SERVER["QUERY_STRING"],
+        'ip'=>get_client_ip(),
+        );
+       M('log')->add($data);
         session_unset();
         session_destroy();
         $this->redirect('Login/index');
