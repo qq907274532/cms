@@ -6,7 +6,8 @@ class IndexController extends BaseController {
        parent::_initialize();
     }
     public function index(){
-    	
+    	$this->userCount=M('users')->count();
+    	$this->articleCount=M('article')->count();
     	$this->display();  
     }
 }
