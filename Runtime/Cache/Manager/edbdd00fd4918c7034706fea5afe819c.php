@@ -28,6 +28,8 @@
    
     <!-- Fonts -->
      <link rel="stylesheet" href="/Public/assets/plugins/icheck/css/_all.css">
+      <link rel="stylesheet" href="/Public/assets/plugins/dropzone/css/dropzone.css">
+    <link rel="stylesheet" href="/Public/assets/plugins/dropzone/css/basic.css">
     <!-- Feature detection -->
     <script src="/Public/assets/js/jquery-1.10.2.min.js"></script>
     <script src="/Public/assets/js/modernizr-2.6.2.min.js"></script>
@@ -42,6 +44,18 @@
     <script src="/Public/assets/js/html5shiv.js"></script>
     <script src="/Public/assets/js/respond.min.js"></script>
     <![endif]-->
+    <script src="/Public/kindeditor/kindeditor.js"></script>  
+        
+        <script>
+         
+           KindEditor.ready(function(K) {
+                    window.editor = K.create('#desc',{
+                                    width : '700px',
+                                     height : '350px'
+                                }
+                            );
+            });
+         </script>  
 </head>
 
 <body>
@@ -249,7 +263,6 @@
                                         <div class="col-sm-4">
                                        
                                              <select class="form-control" name="group_id" id="role">
-                                                <option value="0">请选择权限</option>
                                                  <?php if(is_array($infoRole)): $i = 0; $__LIST__ = $infoRole;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><option value="<?php echo ($v["id"]); ?>" <?php if($info["role_id"] == $v['id']): ?>selected=selected<?php endif; ?>><?php echo ($v["title"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
                                             </select>
                                         </div>
@@ -309,6 +322,21 @@ $(function(){
         }); 
    
 });
+   function check(){
+   
+        var role=$("#role").val();
+            
+       if(role==''){
+            layer.msg('权限组必须选择', {
+                    icon: 5,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }); 
+            //layer.alert('文章标题必须填写', {icon: 5});
+            return false;
+        }else{
+            return true;
+        }
+}
 </script>
 
 </body>

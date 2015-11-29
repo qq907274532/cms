@@ -15,7 +15,8 @@ class BaseController extends Controller {
       
        
        $this->name=MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME;
-        $this->checkAuth($this->name,$_SESSION['id']);
+      
+        //$this->checkAuth($this->name,$_SESSION['id']);
        /*第三级菜单pid*/
        $openId=$this->Auth->getId($this->name);
        
@@ -25,6 +26,7 @@ class BaseController extends Controller {
         'name'=>$_SERVER['PHP_SELF'].$_SERVER["QUERY_STRING"],
         'ip'=>get_client_ip(),
         );
+
        M('log')->add($data);
        /*第二级菜单的pid*/
        $openFirstId=$this->Auth->getFirstId($openId);
@@ -82,16 +84,7 @@ class BaseController extends Controller {
 			);
 		return $data;
     }
-     /**
-     * [add_com 公共的添加方法]
-     * @param [type] $model [模型]
-     * @param [type] $data  [要添加的数据]
-     */
-    public function add_com($model,$data){
-      
-      $pos_result=$model->add($data);
-      return $pos_result;
-    }
+    
     /**
      * [edit_com 公共的修改]
      * @param  [type] $model [模型]
@@ -99,23 +92,9 @@ class BaseController extends Controller {
      * @return [type]        [description]
      */
     public function edit_com($model,$where){
-       $edit_com=$model->where($where)->find();
-
-       return $edit_com;
+       return $model->where($where)->find();
     }
-    /**
-     * [update_com 执行更新的方法]
-     * @param  [type] $model [模型]
-     * @param  [type] $where [条件]
-     * @param  [type] $data  [数据]
-     * @return [type]        [description]
-     */
-    public function update_com($model,$where,$data){
-      //print_r($model);exit;
-         $update_com=$model->where($where)->save($data);
-        // echo $model->getLastSql();exit;
-         return $update_com;
-    }
+    
     /**
      * [del_com 公共的删除]
      * @param  [type] $model [模型]
@@ -123,10 +102,8 @@ class BaseController extends Controller {
      * @return [type]        [description]
      */
     public function del_com($model,$where){
-
-        $del_com=$model->where($where)->delete();
      
-        return $del_com;
+        return $model->where($where)->delete();
     }
  
     /**
@@ -136,8 +113,8 @@ class BaseController extends Controller {
      */
     public function cate_list($model,$where=array(),$order=array()){
          $list=$model->where($where)->order($order)->select();
-         $info =node_merge($list);
-         return $info;
+         
+         return node_merge($list);
     }
     /**
      * [info_com 公共的查询方法]
@@ -146,7 +123,6 @@ class BaseController extends Controller {
      * @return [status]        [默认是空 查询所有的，1是查询一条]
      */
     public function info_com($model,$where=array(),$order=array(),$status=''){
-
         if(empty($status)){
              $result=$model->where($where)->order($order)->select();
              
@@ -183,35 +159,6 @@ class BaseController extends Controller {
         return $path;
     }
 
-    /*获取用户权限*/
-    public function getwhere(){
-       $info=D('Node')->getRbac($_SESSION['id']);
-        $list=node_merge($info);
-        foreach ($list as $k => $v) {
-            foreach ($v['child'] as $key => $va) {
-               $list[$k]['child'][$key]['url']=U($va['name'].'/index');
-            }
-        }
-        return $list;
-        //$result=M('access')->alias('a')->join('')
-    }
-    public function authTF($auth_array){
-        $auth=0;
-        $arr=array('check_user','upload');
-        foreach ($auth_array as $key=>$val){
-
-            foreach ($val['child'] as $k => $v) {
-               if($v['name']==CONTROLLER_NAME  ){
-                
-                 for ($i=0; $i <count($v['child']) ; $i++) { 
-                     if($v['child'][$i]['name']==ACTION_NAME || in_array(ACTION_NAME,$arr) ){
-                         $auth=1;
-                     }
-                 }
-               }
-            }
-           
-        }
-        return $auth;
-    }
+   
+ 
 }

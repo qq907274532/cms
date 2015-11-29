@@ -102,7 +102,6 @@ class Auth{
         if (!$this->_config['AUTH_ON'])
             return true;
         $authList = $this->getAuthList($uid,$type); //获取用户需要验证的所有有效规则列表
-        //print_r( $authList);exit;
         if (is_string($name)) {
             $name = strtolower($name);
             if (strpos($name, ',') !== false) {
@@ -111,30 +110,23 @@ class Auth{
                 $name = array($name);
             }
         }
-       
         $list = array(); //保存验证通过的规则名
         if ($mode=='url') {
             $REQUEST = unserialize( strtolower(serialize($_REQUEST)) );
         }
         foreach ( $authList as $auth ) {
-           
             $query = preg_replace('/^.+\?/U','',$auth);
-            //print_r($query);
             if ($mode=='url' && $query!=$auth ) {
-               
                 parse_str($query,$param); //解析规则中的param
                 $intersect = array_intersect_assoc($REQUEST,$param);
                 $auth = preg_replace('/\?.*$/U','',$auth);
-
                 if ( in_array($auth,$name) && $intersect==$param ) {  //如果节点相符且url参数满足
                     $list[] = $auth ;
                 }
             }else if (in_array($auth , $name)){
                 $list[] = $auth ;
-               
             }
         }
-      
         if ($relation == 'or' and !empty($list)) {
             return true;
         }
@@ -182,13 +174,10 @@ class Auth{
 
         //读取用户所属用户组
         $groups = $this->getGroups($uid);
-        //print_r($groups);exit;
-        //print_r($groups);exit;
         $ids = array();//保存用户所属用户组设置的所有权限规则id
         foreach ($groups as $g) {
             $ids = array_merge($ids, explode(',', trim($g['rules'], ',')));
         }
-        
         $ids = array_unique($ids);
         if (empty($ids)) {
             $_authList[$uid.$t] = array();
@@ -202,7 +191,7 @@ class Auth{
         );
         //读取用户组所有权限规则
         $rules = M()->table($this->_config['AUTH_RULE'])->where($map)->field('condition,name')->select();
-        //echo M()->getLastSql();
+
         //循环规则，判断结果。
         $authList = array();   //
         foreach ($rules as $rule) {
@@ -220,10 +209,7 @@ class Auth{
                 $authList[] = strtolower($rule['name']);
             }
         }
-       
         $_authList[$uid.$t] = $authList;
-        
-       // print_r($_authList);exit;
         if($this->_config['AUTH_TYPE']==2){
             //规则列表结果保存到session
             $_SESSION['_AUTH_LIST_'.$uid.$t]=$authList;

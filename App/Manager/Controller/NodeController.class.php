@@ -11,7 +11,7 @@ class NodeController extends BaseController {
     private $where;
 	public function _initialize(){
 	 	parent::_initialize();
-	 	$this->model=M('auth_rule');
+	 	$this->model=D('AuthRule');
 	 	
        
     }
@@ -30,14 +30,17 @@ class NodeController extends BaseController {
         
         if(IS_POST){
             $data=I('post.');
-           
-            if($this->add_com($this->model,$data)){
-                $this->success('添加成功',U('Node/index'));
+            if(!$this->model->create($data)){
+                $this->error($this->model->getError);
             }else{
-                 $this->error('添加失败');
+                if($this->model->add($data)){
+                    $this->success('添加成功',U('Node/index'));
+                }else{
+                     $this->error('添加失败');
+                }
             }
-        }else{
            
+        }else{
             $this->list=$this->cate_list($this->model,array('status'=>'1'),array('sort','id'=>'desc'));
 
             $this->display();
@@ -50,20 +53,22 @@ class NodeController extends BaseController {
         $this->where=array('id'=>$id);
         if(IS_POST){
             $data=I('post.');
-          
             if(empty($data['icon'])){
                 unset($data['icon']);
             }
-            if($this->update_com($this->model,$this->where,$data)){
-                $this->success('修改成功',U('Node/index'));
+            if(!$this->model->create($data)){
+                $this->error($this->model->getError());
             }else{
-                 $this->error('修改失败');
+                if($this->model->where($this->where)->save()){
+                    $this->success('修改成功',U('Node/index'));
+                }else{
+                     $this->error('修改失败');
+                }
             }
+           
         }else{
             $this->list=$this->cate_list($this->model,array('status'=>'1'),array('sort','id'=>'desc'));
-
             $this->info=$this->edit_com($this->model,$this->where);
-
             $this->display();
         }
     }

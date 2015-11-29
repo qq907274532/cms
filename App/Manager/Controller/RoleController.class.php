@@ -11,7 +11,7 @@ class RoleController extends BaseController {
 	private $order;
 	public function _initialize(){
        parent::_initialize();
-        $this->model=M('auth_group');
+        $this->model=D('AuthGroup');
         $this->modelNode=M('auth_rule');
         $this->modelAccess=M('auth_group_access');
     }
@@ -26,11 +26,17 @@ class RoleController extends BaseController {
     	if(IS_POST){
     		$data=I('post.');
     		$data['time']=time();
-    		if($this->add_com($this->model,$data)){
-    			$this->success('添加成功',U('Role/index'));
-    		}else{
-    			$this->error('删除失败');
-    		}
+            if(!$this->model->create($data)){
+                $this->error($this->model->getError());
+            }else{
+               
+                if($this->model->add()){
+                    $this->success('添加成功',U('Role/index'));
+                }else{
+                    $this->error('添加失败');
+                }
+            }
+    		
     	}else{
     		$this->display();
     	}
@@ -49,8 +55,6 @@ class RoleController extends BaseController {
            }
         }else{
            
-            
-
              /*查询权限组id*/
             $infoRule= $this->model->where(array('id'=>$id))->getField('rules');   
 
@@ -75,15 +79,18 @@ class RoleController extends BaseController {
         if(IS_POST){
             $data=I('post.');
             $data['create_time']=time();
-            if($this->update_com($this->model,$this->where,$data)){
-                $this->success('修改成功',U('Role/index'));
+            if(!$this->model->create($data)){
+                $this->error($this->model->getError());
             }else{
-                 $this->error('修改失败');
+                if($this->model->where($this->where)->save()){
+                    $this->success('修改成功',U('Role/index'));
+                }else{
+                    $this->error('修改失败');
+                }
             }
+           
         }else{
-
             $this->info=$this->edit_com($this->model,$this->where);
-
             $this->display();
         }
     }

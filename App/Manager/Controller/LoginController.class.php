@@ -17,28 +17,14 @@ class LoginController extends Controller {
     	
       $verify=I('verify');
       if(!$this->model->check_verify($verify)){
-          $data=array(
-            'name'=>I('username'),
-            'status'=>0,
-            'ip'=>get_client_ip(),
-              'mess'=>'验证码不正确',
-              'time'=>time(),
-            );
-          $this->model->addLog($data);
+          
           echo "<script>alert('验证码不正确');history.go(-1)</script>";
           exit;
       }else{
        
       $userInfoDetail=$this->model->userInfo();
       if(empty($userInfoDetail)){
-          $data=array(
-            'name'=>I('username'),
-            'status'=>0,
-            'ip'=>get_client_ip(),
-              'mess'=>'用户名或密码不正确',
-              'time'=>time(),
-            );
-          $this->model->addLog($data);
+          
          echo "<script>alert('用户名或密码不正确');history.go(-1)</script>";
          exit;
 
@@ -52,16 +38,6 @@ class LoginController extends Controller {
                 );
             
             $this->model->infoUpdate($userInfoDetail['id'], $data);
-
-            $data=array(
-            'name'=>I('username'),
-            'status'=>1,
-            'ip'=>get_client_ip(),
-              'mess'=>'登陆成功',
-              'time'=>time(),
-            );
-          $this->model->addLog($data);
-
             session('id',$userInfoDetail['id']);
             session('name',$userInfoDetail['username']);
             session('ip',$data['loginip']);
@@ -72,18 +48,7 @@ class LoginController extends Controller {
 
     
     }
-    public function checkName(){
-      
-      if($this->model->user()){
-         exit('0');
-      }else{
-         if($userInfo['lock'] !=0){
-            exit('2');
-          }else{
-            exit('1');
-          }
-      }
-    }
+   
     
     /**
      * [checkOnly 检测规则表示是否唯一]

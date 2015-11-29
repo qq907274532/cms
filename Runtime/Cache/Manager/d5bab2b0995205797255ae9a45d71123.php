@@ -28,6 +28,8 @@
    
     <!-- Fonts -->
      <link rel="stylesheet" href="/Public/assets/plugins/icheck/css/_all.css">
+      <link rel="stylesheet" href="/Public/assets/plugins/dropzone/css/dropzone.css">
+    <link rel="stylesheet" href="/Public/assets/plugins/dropzone/css/basic.css">
     <!-- Feature detection -->
     <script src="/Public/assets/js/jquery-1.10.2.min.js"></script>
     <script src="/Public/assets/js/modernizr-2.6.2.min.js"></script>
@@ -42,6 +44,18 @@
     <script src="/Public/assets/js/html5shiv.js"></script>
     <script src="/Public/assets/js/respond.min.js"></script>
     <![endif]-->
+    <script src="/Public/kindeditor/kindeditor.js"></script>  
+        
+        <script>
+         
+           KindEditor.ready(function(K) {
+                    window.editor = K.create('#desc',{
+                                    width : '700px',
+                                     height : '350px'
+                                }
+                            );
+            });
+         </script>  
 </head>
 
 <body>
@@ -248,13 +262,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">用户列表</h3>
-                                <div class="actions pull-right">
-                                    <i class="fa fa-chevron-down"></i>
-                                    
-                                </div>
-                            </div>
+                           
                             <div class="panel-body">
                                 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                     <thead>
@@ -305,11 +313,11 @@
                                                     <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
                                                         
 
-                                                        <a onclick="if(confirm('确认要启用吗?')) location.href='<?php echo U('User/enable',array('id'=>$v[id]));?>'"  href="javascript:;"  >
+                                                        <a onclick="if(confirm('确认要启用吗?')) location.href='<?php echo U('User/enable',array('id'=>$v[id]));?>'"  href="javascript:;"  title="启用">
                                                             <i class="fa fa-unlock-alt"></i>
                                                         </a>
 
-                                                        <a onclick="if(confirm('确认要禁用吗?')) location.href='<?php echo U('User/shield',array('id'=>$v[id]));?>'"  href="javascript:;"  >
+                                                        <a onclick="if(confirm('确认要禁用吗?')) location.href='<?php echo U('User/shield',array('id'=>$v[id]));?>'"  href="javascript:;" title="禁用" >
                                                             <i class="fa  fa-lock"></i>
                                                         </a>
 

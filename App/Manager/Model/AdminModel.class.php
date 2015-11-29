@@ -11,6 +11,12 @@ class AdminModel extends Model {
 	const TBL_ADMIN="admin";
 	const TBL_RULE="auth_rule";
 	const TBL_Log="lolog";
+	protected $_validate = array(
+     array('username','require','管理员名称必须填写'),  // 都有时间都验证
+     array('username','','管理员名称已经存在！',0,'unique',1), // 在新增的时候验证name字段是否唯一
+     array('password','require','密码必须填写'),  // 只在登录时候验证
+     array('repass','password','确认密码不正确',0,'confirm'),  // 只在登录时候验证
+   );
 	/*总数*/
 	public function articleCount($where){
 		$count=M(self::TBL_ARTICLE)->where($where)->count();

@@ -28,6 +28,8 @@
    
     <!-- Fonts -->
      <link rel="stylesheet" href="/Public/assets/plugins/icheck/css/_all.css">
+      <link rel="stylesheet" href="/Public/assets/plugins/dropzone/css/dropzone.css">
+    <link rel="stylesheet" href="/Public/assets/plugins/dropzone/css/basic.css">
     <!-- Feature detection -->
     <script src="/Public/assets/js/jquery-1.10.2.min.js"></script>
     <script src="/Public/assets/js/modernizr-2.6.2.min.js"></script>
@@ -42,6 +44,18 @@
     <script src="/Public/assets/js/html5shiv.js"></script>
     <script src="/Public/assets/js/respond.min.js"></script>
     <![endif]-->
+    <script src="/Public/kindeditor/kindeditor.js"></script>  
+        
+        <script>
+         
+           KindEditor.ready(function(K) {
+                    window.editor = K.create('#desc',{
+                                    width : '700px',
+                                     height : '350px'
+                                }
+                            );
+            });
+         </script>  
 </head>
 
 <body>
@@ -249,7 +263,7 @@
                             </div>
                             <div class="panel-body">
 
-                                <form class="form-horizontal form-border"  method="post" action="" onsubmit="return check()">
+                                <form class="form-horizontal form-border"  method="post" action="" id="myform">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">管理员名称：</label>
                                         <div class="col-sm-4">

@@ -28,6 +28,8 @@
    
     <!-- Fonts -->
      <link rel="stylesheet" href="/Public/assets/plugins/icheck/css/_all.css">
+      <link rel="stylesheet" href="/Public/assets/plugins/dropzone/css/dropzone.css">
+    <link rel="stylesheet" href="/Public/assets/plugins/dropzone/css/basic.css">
     <!-- Feature detection -->
     <script src="/Public/assets/js/jquery-1.10.2.min.js"></script>
     <script src="/Public/assets/js/modernizr-2.6.2.min.js"></script>
@@ -42,6 +44,18 @@
     <script src="/Public/assets/js/html5shiv.js"></script>
     <script src="/Public/assets/js/respond.min.js"></script>
     <![endif]-->
+    <script src="/Public/kindeditor/kindeditor.js"></script>  
+        
+        <script>
+         
+           KindEditor.ready(function(K) {
+                    window.editor = K.create('#desc',{
+                                    width : '700px',
+                                     height : '350px'
+                                }
+                            );
+            });
+         </script>  
 </head>
 
 <body>
@@ -298,16 +312,17 @@
    
         var title=$("#title").val();
             
-       if(desc==''){
-            layer.msg('角色名称必须填写', {
-                    icon: 5,
-                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                }); 
-            //layer.alert('文章标题必须填写', {icon: 5});
-            return false;
-        }else{
-            return true;
-        }
+       // if(title==''){
+       //      layer.msg('角色名称必须填写', {
+       //              icon: 5,
+       //              time: 2000 //2秒关闭（如果不配置，默认是3秒）
+       //          }); 
+       //      //layer.alert('文章标题必须填写', {icon: 5});
+       //      return false;
+       //  }else{
+       //      return true;
+       //  }
+    return true;
 }
     </script>
 

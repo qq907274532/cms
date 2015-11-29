@@ -17,7 +17,8 @@ $config= array(
                 'Manager',
                 
         ),
-        'DEFAULT_MODULE' => 'Manager' 
+        'DEFAULT_MODULE' => 'Manager' ,
+    'LOAD_EXT_CONFIG' => 'verify',    
 	
 );
 

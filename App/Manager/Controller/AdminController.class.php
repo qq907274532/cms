@@ -8,8 +8,8 @@ class AdminController extends BaseController {
     private $where;
 	public function _initialize(){
 	 	parent::_initialize();
-	 	$this->model=M('admin');
-	 	$this->modelRole=M('auth_group');
+	 	$this->model=D('admin');
+	 	$this->modelRole=D('AuthGroup');
         $this->modelRoleAcc=M('auth_group_access');
     }
     public function index(){
@@ -32,14 +32,18 @@ class AdminController extends BaseController {
             $data=I('post.');
             $data['password']=md5($data['password']);
             $data['time']=time();
-
-            $uid=$this->add_com($this->model,$data);
-            $gid=$this->add_com($this->modelRoleAcc,array('group_id'=>I('group_id'),'uid'=>$uid));
-            if($uid&&$gid){
-                $this->success('添加成功',U('Admin/index'));
+            if(!$this->model->create($data)){
+                $this->error($this->model->getError());
             }else{
-                $this->error('添加失败');
+                $uid=$this->model->add();
+                $gid=$this->modelRoleAcc->add(array('group_id'=>I('group_id'),'uid'=>$uid));
+                if($uid&&$gid){
+                    $this->success('添加成功',U('Admin/index'));
+                }else{
+                    $this->error('添加失败');
+                }
             }
+           
         }else{
             $this->info=$this->info_com($this->modelRole);
 
@@ -54,14 +58,18 @@ class AdminController extends BaseController {
         if(IS_POST){
           $data=I('post.');
           $data['time']=time();
-          $uid=$this->update_com($this->model,$where,$data);
-          $gid=$this->update_com($this->modelRoleAcc,array('uid'=>$id),array('group_id'=>I('group_id')));
-        if($uid || $gid){
-         
-             $this->success('修改成功',U('Admin/index'));
+          if(!$this->model->create($data)){
+            $this->error($this->model->getError());
           }else{
-             $this->success('修改失败',U('Admin/index'));
+              $uid=$this->model->where($where)->save();
+              $gid=$this->modelRoleAcc->where(array('uid'=>$id))->save(array('group_id'=>I('group_id')));
+            if($uid || $gid){
+                 $this->success('修改成功',U('Admin/index'));
+              }else{
+                 $this->success('修改失败',U('Admin/index'));
+              }
           }
+          
         }else{
           $this->infoRole=$this->info_com($this->modelRole);
           $this->info=$this->edit_com($this->model,$where);
@@ -69,17 +77,7 @@ class AdminController extends BaseController {
           $this->display();  
         }
     }
-    public function check_user(){
-        $name=I('username');
-
-        $info=$this->model->where(array('username'=>$name))->find();
-       
-        if(empty($info)){
-            exit('0');
-        }else{
-            exit('1');
-        }
-    }
+  
     public function del(){
         $id=I('id',0,'intval');
         if($this->del_com($this->model,array('id'=>$id))){

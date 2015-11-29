@@ -1,5 +1,5 @@
 <?php
-namespace Admin\Controller;
+namespace Manager\Controller;
 use Think\Controller;
 /**
  * 文章分类控制器

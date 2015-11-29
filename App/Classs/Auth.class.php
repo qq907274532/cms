@@ -102,7 +102,7 @@ class Auth{
         if (!$this->_config['AUTH_ON'])
             return true;
         $authList = $this->getAuthList($uid,$type); //获取用户需要验证的所有有效规则列表
-        //print_r( $authList);exit;
+       
         if (is_string($name)) {
             $name = strtolower($name);
             if (strpos($name, ',') !== false) {
@@ -156,12 +156,15 @@ class Auth{
         static $groups = array();
         if (isset($groups[$uid]))
             return $groups[$uid];
+      
         $user_groups = M()
             ->table($this->_config['AUTH_GROUP_ACCESS'] . ' a')
             ->where("a.uid='$uid' and g.status='1'")
             ->join($this->_config['AUTH_GROUP']." g on a.group_id=g.id")
             ->field('uid,group_id,title,rules')->select();
+        
         $groups[$uid]=$user_groups?:array();
+
         return $groups[$uid];
     }
     /**
@@ -173,6 +176,7 @@ class Auth{
         static $groups = array();
         if (isset($groups[$rules]))
             return $groups[$rules];
+        $map['status']=array('eq',1);
         $map['id']=array('in',$rules);
         $user_groups = M('auth_rule')->where($map)->select();
         foreach ($user_groups as $key => $value) {
@@ -238,9 +242,10 @@ class Auth{
         );
         //读取用户组所有权限规则
         $rules = M()->table($this->_config['AUTH_RULE'])->where($map)->field('condition,name')->select();
-        //echo M()->getLastSql();
+       
         //循环规则，判断结果。
         $authList = array();   //
+       
         foreach ($rules as $rule) {
             if (!empty($rule['condition'])) { //根据condition进行验证
                 $user = $this->getUserInfo($uid);//获取用户信息,一维数组
@@ -264,6 +269,7 @@ class Auth{
             //规则列表结果保存到session
             $_SESSION['_AUTH_LIST_'.$uid.$t]=$authList;
         }
+       
         return array_unique($authList);
     }
 

@@ -46,7 +46,6 @@
                                         <div class="col-sm-4">
                                        
                                              <select class="form-control" name="group_id" id="role">
-                                                <option value="0">请选择权限</option>
                                                  <volist name="infoRole" id="v">
                                                     <option value="{$v.id}" <if condition="$info.role_id eq $v['id']"> selected=selected</if>>{$v.title}</option>
                                                 </volist>
@@ -108,6 +107,21 @@ $(function(){
         }); 
    
 });
+   function check(){
+   
+        var role=$("#role").val();
+            
+       if(role==''){
+            layer.msg('权限组必须选择', {
+                    icon: 5,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }); 
+            //layer.alert('文章标题必须填写', {icon: 5});
+            return false;
+        }else{
+            return true;
+        }
+}
 </script>
 
 </body>

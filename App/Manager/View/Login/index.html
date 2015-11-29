@@ -49,7 +49,7 @@
                         <form class="form-horizontal" role="form" method="post" action="{:U('Login/relogin')}" onsubmit="return checkform()">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" id="username" name="username" placeholder="用户名" onblur="return checkName() ">
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="用户名" >
                                     <i class="fa fa-user"></i>
                                 </div>
                             </div>
@@ -124,36 +124,7 @@
             }
          }
         
-          function checkName(){
-            var name=$("#username").val();
-            var url="{:U('Login/checkName')}";
-              $.ajax({
-                    type:'POST',
-                    url:url,
-                    data:{name:name},
-                    success:function(data){
-                        if(data==0){
-                            layer.msg('用户名不存在', {
-                                icon: 5,
-                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                            });   
-                
-                            return false;
-                        }else if(data==2){
-                            layer.msg('用户名已被锁定', {
-                                icon: 5,
-                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                            });
-                            
-                            //layer.alert('用户名已被锁定', {icon: 5});
-                            return false;
-                        }else{
-                            return true;
-                        }
-                }
-                    
-              })
-         }
+         
       $(function(){
             $("#verify").click(function(){
                  var src="{:U('Login/verify','','')}";

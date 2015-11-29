@@ -1,5 +1,5 @@
 <?php
-namespace Admin\Controller;
+namespace Manager\Controller;
 use Think\Controller;
 class LinkController extends BaseController {
 	private $model;
@@ -8,7 +8,7 @@ class LinkController extends BaseController {
     private $where;
 	public function _initialize(){
 	 	parent::_initialize();
-	 	$this->model=M('links');
+	 	$this->model=M('Link');
 
        
     }
@@ -25,7 +25,6 @@ class LinkController extends BaseController {
             $data=I('post.');
             $data['image']=$this->upload('link/');
             $data['time']=time();
-
             if($this->add_com($this->model,$data)){
                 $this->success('添加成功',U('Link/index'));
             }else{
